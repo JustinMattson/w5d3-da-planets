@@ -2,14 +2,14 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId;
 
-const SolarSystem = new Schema(
+const Planet = new Schema(
   {
     name: { type: String, required: true },
-    planets: { type: Array, required: false },
-    dwarfs: { type: Array, required: false },
+    moons: { type: Number, required: false },
+    solarSystem: { type: ObjectId, ref: "SolarSystem", required: true },
     galaxy: { type: ObjectId, ref: "Galaxy", required: true },
   },
   { timestamps: true, toJSON: { virtuals: true } }
 );
 
-export default SolarSystem;
+export default Planet;

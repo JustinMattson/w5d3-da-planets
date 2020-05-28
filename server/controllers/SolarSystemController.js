@@ -1,24 +1,22 @@
 import express from "express";
 import BaseController from "../utils/BaseController";
-import { galaxyService } from "../services/GalaxyService";
 import { solarSystemService } from "../services/SolarSystemService";
 import { planetService } from "../services/PlanetService";
 
-export class GalaxyController extends BaseController {
+export class SolarSystemController extends BaseController {
   constructor() {
-    super("api/galaxy");
+    super("api/solarSystem");
     this.router
       .get("", this.getAll)
       .get("/:id", this.getById)
-      .get("/:id/solarSystem", this.getSolarSystemByGalaxyId)
-      .get("/:id/planets", this.getPlanetsByGalaxyId)
+      .get("/:id/planets", this.getPlanetsBySolarSystemId)
       .post("", this.create)
       .put("/:id", this.edit)
       .delete("/:id", this.delete);
   }
   async getAll(req, res, next) {
     try {
-      let data = await galaxyService.find(req.query);
+      let data = await solarSystemService.find(req.query);
       return res.send(data);
     } catch (error) {
       next(error);
@@ -26,30 +24,30 @@ export class GalaxyController extends BaseController {
   }
   async getById(req, res, next) {
     try {
-      let data = await galaxyService.findById(req.params.id);
+      let data = await solarSystemService.findById(req.params.id);
       return res.send(data);
     } catch (error) {
       next(error);
     }
   }
-  async getSolarSystemByGalaxyId(req, res, next) {
+  async getSolarSystemBySolarSystemId(req, res, next) {
     try {
-      let data = await solarSystemService.find({ galaxy: req.params.id });
+      let data = await solarSystemService.find({ solarSystem: req.params.id });
       return res.send(data);
     } catch (error) {
       next(error);
     }
   }
-  async getPlanetsByGalaxyId(req, res, next) {
+  async getPlanetsBySolarSystemId(req, res, next) {
     try {
-      let data = await planetService.find({ galaxy: req.params.id });
+      let data = await planetService.find({ solarSystem: req.params.id });
     } catch (error) {
       next(error);
     }
   }
   async create(req, res, next) {
     try {
-      let data = await galaxyService.create(req.body);
+      let data = await solarSystemService.create(req.body);
       return res.send(data);
     } catch (error) {
       next(error);
@@ -58,7 +56,7 @@ export class GalaxyController extends BaseController {
   async edit(req, res, next) {
     try {
       req.body.id = req.params.id;
-      let data = await galaxyService.edit(req.body);
+      let data = await solarSystemService.edit(req.body);
       return res.send(data);
     } catch (error) {
       next(error);
@@ -66,7 +64,7 @@ export class GalaxyController extends BaseController {
   }
   async delete(req, res, next) {
     try {
-      let data = await galaxyService.delete(req.params.id);
+      let data = await solarSystemService.delete(req.params.id);
       return res.send("Deleted");
     } catch (error) {
       next(error);
